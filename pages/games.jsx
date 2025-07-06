@@ -5,7 +5,7 @@ const fetcher = (url) => fetch(url).then(res => res.json());
 export default function GamesPage() {
   const { data: qs, error } = useSWR("/api/questions", fetcher);
   const [index, setIndex] = useState(0);
-  const [result, setResult] = useState<string|null>(null);
+  const [result, setResult] = useState(null);  // ← Fixed this line
 
   if (error) return <div>Error</div>;
   if (!qs) return <div>Loading…</div>;
