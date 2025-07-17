@@ -24,12 +24,12 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center px-6 py-20">
         {/* Big welcome text */}
         <h2 className="text-6xl font-bold text-white mb-6 text-center">
-          Welcome to Katsura's World
+          Are you tired of Bakufu
         </h2>
         
         {/* Subtitle */}
         <p className="text-xl text-pink-200 mb-12 text-center">
-          Explore quotes, videos, and games featuring everyone's favorite samurai terrorist!
+          Join the revolution with our beloved leader the great fruit punch Samurai, Zura
         </p>
 
         {/* Feature Cards Grid - Responsive: 1 column on mobile, 3 on desktop */}
@@ -39,9 +39,9 @@ export default function Home() {
           <a href="/quotes" className="transform transition duration-300 hover:scale-105">
             <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full">
               <div className="text-5xl mb-4">📜</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Famous Quotes</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">Wise word's by Katsura San</h3>
               <p className="text-pink-200">
-                "It's not Zura, it's Katsura!" and more iconic lines
+                "It's not Zura, it's Katsura!"
               </p>
             </div>
           </a>
@@ -50,9 +50,9 @@ export default function Home() {
           <a href="/videos" className="transform transition duration-300 hover:scale-105">
             <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full">
               <div className="text-5xl mb-4">🎬</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Epic Moments</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">Watch our leader in action</h3>
               <p className="text-pink-200">
-                Watch the best Katsura scenes and comedic gold
+                Glorious tales of Our leader Lupin
               </p>
             </div>
           </a>
@@ -61,9 +61,9 @@ export default function Home() {
           <a href="/games" className="transform transition duration-300 hover:scale-105">
             <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full">
               <div className="text-5xl mb-4">🎮</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Quiz Game</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">Application to join our organization</h3>
               <p className="text-pink-200">
-                Test your knowledge about Katsura and Gintama!
+                Show that you are worthy of joining our ranks
               </p>
             </div>
           </a>
