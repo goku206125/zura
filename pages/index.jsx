@@ -1,74 +1,56 @@
 // pages/index.jsx
-import { useState, useEffect } from 'react'; // ADD THIS IMPORT AT THE TOP
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  // ADD THESE LINES RIGHT AFTER function Home() {
-  const [showKatsura, setShowKatsura] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+  
+  // Array of hero images with text
+  const heroImages = [
+    {
+      src: '/images/afro.jpg',
+      alt: 'Afro Katsura',
+      quote: 'Zura janai, Katsura da!',
+      description: 'The legendary samurai with the most fabulous afro'
+    },
+    {
+      src: '/images/captain.jpg',
+      alt: 'Captain Katsura',
+      quote: 'I am Captain Katsura!',
+      description: 'Leader of the Jouishishi rebels'
+    },
+    {
+      src: '/images/serious-leader.jpg',
+      alt: 'Serious Katsura',
+      quote: 'This country needs to change',
+      description: 'The serious revolutionary side'
+    },
+    {
+      src: '/images/comedy-gold.jpg',
+      alt: 'Comedy Katsura',
+      quote: 'Elizabeth, what should we do?',
+      description: 'Master of unintentional comedy'
+    },
+    {
+      src: '/images/with-elizabeth.jpg',
+      alt: 'Katsura with Elizabeth',
+      quote: 'Elizabeth is my best friend',
+      description: 'The iconic duo'
+    }
+  ];
 
+  // Auto-rotate images every 4 seconds
   useEffect(() => {
-    setTimeout(() => setShowKatsura(true), 500);
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-indigo-900 relative overflow-hidden"> {/* ADD relative overflow-hidden to this div */}
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-indigo-900">
       
-      {/* INSERT ALL KATSURA IMAGES HERE - RIGHT AFTER THE OPENING DIV */}
-      
-      {/* Floating Afro Katsura - Top Left */}
-      <div className={`absolute top-20 left-10 transition-all duration-1000 ${showKatsura ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
-        <img 
-          src="/images/afro.png" 
-          alt="Katsura with Afro" 
-          className="w-32 h-32 object-contain animate-bounce-slow"
-        />
-        <div className="absolute -bottom-8 left-0 bg-white rounded-lg p-2 shadow-lg">
-          <p className="text-sm font-bold text-purple-900">Zura janai, Katsura da!</p>
-        </div>
-      </div>
-
-      {/* Captain Katsura - Right Side Peeking */}
-      <div className={`fixed right-0 top-1/2 -translate-y-1/2 transition-all duration-1000 delay-300 ${showKatsura ? 'translate-x-0' : 'translate-x-full'}`}>
-        <img 
-          src="/images/captain.jpg" 
-          alt="Captain Katsura" 
-          className="w-24 h-24 object-contain hover:scale-110 transition-transform cursor-pointer"
-          style={{ marginRight: '-40px' }}
-          onMouseEnter={(e) => e.target.style.marginRight = '0px'}
-          onMouseLeave={(e) => e.target.style.marginRight = '-40px'}
-        />
-      </div>
-
-      {/* Spinning Elizabeth & Katsura - Bottom Right */}
-      <div className="absolute bottom-10 right-10 animate-spin-slow">
-        <img 
-          src="/images/with-elizabeth.jpg" 
-          alt="Katsura with Elizabeth" 
-          className="w-20 h-20 object-contain opacity-50"
-        />
-      </div>
-
-      {/* Comedy Gold - Top Right Corner */}
-      <div className="absolute top-10 right-10 animate-float">
-        <img 
-          src="/images/comedy-gold.jpg" 
-          alt="Comedy Katsura" 
-          className="w-16 h-16 object-contain opacity-30"
-        />
-      </div>
-
-      {/* Serious Leader - Bottom Left */}
-      <div className="fixed bottom-20 left-10 animate-pulse">
-        <img 
-          src="/images/serious-leader.jpg" 
-          alt="Serious Katsura" 
-          className="w-24 h-24 object-contain opacity-70"
-        />
-      </div>
-
-      {/* END OF KATSURA IMAGES */}
-
-      {/* Navigation Bar - ADD relative z-10 to keep it above images */}
-      <nav className="p-6 backdrop-blur-sm bg-white/10 relative z-10">
+      {/* Navigation Bar */}
+      <nav className="p-6 backdrop-blur-sm bg-white/10 relative z-20">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-3xl font-bold text-white animate-pulse">
             Zura janai, Katsura da!
@@ -82,67 +64,119 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section - ADD relative z-10 to keep it above background images */}
-      <div className="flex flex-col items-center justify-center px-6 py-20 relative z-10">
-        <h2 className="text-6xl font-bold text-white mb-6 text-center">
-          Welcome to Katsura's World
-        </h2>
-        <p className="text-xl text-pink-200 mb-12 text-center">
-          Explore quotes, videos, and games featuring everyone's favorite samurai terrorist!
-        </p>
-
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl w-full">
-          
-          {/* Quotes Card - ADD relative for image positioning */}
-          <a href="/quotes" className="transform transition duration-300 hover:scale-105 relative">
-            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full">
-              <div className="text-5xl mb-4">📜</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Famous Quotes</h3>
-              <p className="text-pink-200">
-                "It's not Zura, it's Katsura!" and more iconic lines
-              </p>
-            </div>
-            {/* Small image on card */}
-            <img 
-              src="/images/serious-leader.png" 
-              alt="Serious Katsura" 
-              className="absolute -top-4 -right-4 w-16 h-16 object-contain transform rotate-12"
+      {/* Hero Section with Large Character Display */}
+      <div className="relative min-h-[600px] overflow-hidden">
+        
+        {/* Background Images */}
+        {heroImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentImage ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <img
+              src={image.src}
+              alt={image.alt}
+              className="absolute right-0 top-0 h-full w-auto max-w-[50%] object-contain"
             />
-          </a>
+          </div>
+        ))}
 
-          {/* Videos Card */}
-          <a href="/videos" className="transform transition duration-300 hover:scale-105">
-            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full">
-              <div className="text-5xl mb-4">🎬</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Epic Moments</h3>
-              <p className="text-pink-200">
-                Watch the best Katsura scenes and comedic gold
-              </p>
-            </div>
-          </a>
+        {/* Content Overlay */}
+        <div className="relative z-10 flex flex-col justify-center min-h-[600px] px-6 py-20">
+          <div className="max-w-7xl mx-auto w-full">
+            <div className="max-w-2xl">
+              <h2 className="text-7xl font-bold text-white mb-6 animate-fadeIn">
+                Welcome to Katsura's World
+              </h2>
+              
+              {/* Dynamic Quote based on current image */}
+              <div className="mb-8 animate-slideIn">
+                <p className="text-3xl text-pink-300 font-bold mb-2">
+                  "{heroImages[currentImage].quote}"
+                </p>
+                <p className="text-xl text-pink-200">
+                  {heroImages[currentImage].description}
+                </p>
+              </div>
 
-          {/* Games Card */}
-          <a href="/games" className="transform transition duration-300 hover:scale-105">
-            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full">
-              <div className="text-5xl mb-4">🎮</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Quiz Game</h3>
-              <p className="text-pink-200">
-                Test your knowledge about Katsura and Gintama!
-              </p>
+              {/* Image Selector Dots */}
+              <div className="flex gap-2 mb-8">
+                {heroImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImage(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === currentImage 
+                        ? 'bg-white w-8' 
+                        : 'bg-white/50 hover:bg-white/75'
+                    }`}
+                    aria-label={`View image ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
-          </a>
+          </div>
+        </div>
 
-          {/* Chat Card */}
-          <a href="/chat" className="transform transition duration-300 hover:scale-105">
-            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full">
-              <div className="text-5xl mb-4">💬</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Chat with Katsura</h3>
-              <p className="text-pink-200">
-                Talk to the legendary samurai terrorist!
-              </p>
-            </div>
-          </a>
+        {/* Gradient Overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent pointer-events-none" />
+      </div>
+
+      {/* Feature Cards Section */}
+      <div className="px-6 py-20 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-4xl font-bold text-white mb-12 text-center">
+            Explore Katsura's Universe
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            {/* Quotes Card */}
+            <a href="/quotes" className="group transform transition duration-300 hover:scale-105">
+              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+                <div className="text-5xl mb-4">📜</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Famous Quotes</h3>
+                <p className="text-pink-200">
+                  "It's not Zura, it's Katsura!" and more iconic lines
+                </p>
+              </div>
+            </a>
+
+            {/* Videos Card */}
+            <a href="/videos" className="group transform transition duration-300 hover:scale-105">
+              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+                <div className="text-5xl mb-4">🎬</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Epic Moments</h3>
+                <p className="text-pink-200">
+                  Watch the best Katsura scenes and comedic gold
+                </p>
+              </div>
+            </a>
+
+            {/* Games Card */}
+            <a href="/games" className="group transform transition duration-300 hover:scale-105">
+              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+                <div className="text-5xl mb-4">🎮</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Quiz Game</h3>
+                <p className="text-pink-200">
+                  Test your knowledge about Katsura and Gintama!
+                </p>
+              </div>
+            </a>
+
+            {/* Chat Card */}
+            <a href="/chat" className="group transform transition duration-300 hover:scale-105">
+              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+                <div className="text-5xl mb-4">💬</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Chat with Katsura</h3>
+                <p className="text-pink-200">
+                  Talk to the legendary samurai terrorist!
+                </p>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
