@@ -1,11 +1,11 @@
 // imageConfig.js
 export const katsuraImages = {
   // Define all your images here
-  afro: '/images/afro.png',
-  captain: '/images/captain.png',
-  comedyGold: '/images/comedy-gold.png',
-  seriousLeader: '/images/serious-leader.png',
-  withElizabeth: '/images/with-elizabeth.png'
+  afro: '/images/afro.jpg',
+  captain: '/images/captain.jpg',
+  comedyGold: '/images/comedy-gold.jpg',
+  seriousLeader: '/images/serious-leader.jpg',
+  withElizabeth: '/images/with-elizabeth.jpg'
 };
 
 // Define image sets for each page
