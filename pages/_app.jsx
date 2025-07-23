@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }) {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // Direct path to public folder file
+    // This path works for ALL USERS when deployed to Vercel
     audioRef.current = new Audio('/zura-theme.mp3');
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
