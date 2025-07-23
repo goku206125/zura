@@ -29,7 +29,7 @@ export default function Home() {
       {/* Captain Katsura - Right Side Peeking */}
       <div className={`fixed right-0 top-1/2 -translate-y-1/2 transition-all duration-1000 delay-300 ${showKatsura ? 'translate-x-0' : 'translate-x-full'}`}>
         <img 
-          src="/images/captain.png" 
+          src="/images/captain.jpg" 
           alt="Captain Katsura" 
           className="w-24 h-24 object-contain hover:scale-110 transition-transform cursor-pointer"
           style={{ marginRight: '-40px' }}
@@ -41,7 +41,7 @@ export default function Home() {
       {/* Spinning Elizabeth & Katsura - Bottom Right */}
       <div className="absolute bottom-10 right-10 animate-spin-slow">
         <img 
-          src="/images/with-elizabeth.png" 
+          src="/images/with-elizabeth.jpg" 
           alt="Katsura with Elizabeth" 
           className="w-20 h-20 object-contain opacity-50"
         />
@@ -50,7 +50,7 @@ export default function Home() {
       {/* Comedy Gold - Top Right Corner */}
       <div className="absolute top-10 right-10 animate-float">
         <img 
-          src="/images/comedy-gold.png" 
+          src="/images/comedy-gold.jpg" 
           alt="Comedy Katsura" 
           className="w-16 h-16 object-contain opacity-30"
         />
@@ -59,7 +59,7 @@ export default function Home() {
       {/* Serious Leader - Bottom Left */}
       <div className="fixed bottom-20 left-10 animate-pulse">
         <img 
-          src="/images/serious-leader.png" 
+          src="/images/serious-leader.jpg" 
           alt="Serious Katsura" 
           className="w-24 h-24 object-contain opacity-70"
         />
