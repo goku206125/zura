@@ -1,77 +1,218 @@
+// pages/quotes.jsx
 import useSWR from "swr";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const fetcher = (url) => fetch(url).then(res => res.json());
 
 export default function QuotesPage() {
-  const { data: quotes, error } = useSWR("/api/quotes", fetcher);
+  const { data: dbQuotes, error } = useSWR("/api/quotes", fetcher);
   const [currentQuote, setCurrentQuote] = useState(0);
+  const [backgroundImageIndex, setBackgroundImageIndex] = useState(0);
+  
+  // Hardcoded quotes as fallback + additional quotes
+  const hardcodedQuotes = [
+    "It's not Zura, it's Katsura!",
+    "I'm not Lupin, I'm Zura. Oops, I mean Katsura.",
+    "It's not rap, it's Katsurap, yo.",
+    "It's not Zura. It's Captain Katsura, dattebayo!",
+    "Zura ja nai! Katsura da!",
+    "Katsura ja nai! Zura da!",
+    "OROKAMONO JANAI, KATSURA DA!",
+    "Daijobu janai katsura da!",
+    "Zurump ja nai! Katsura da!",
+    "I'm not okay, I'm Katsura!",
+    "K-san ja nai, Katsura da!",
+    "Zuramp ja nai, Katsura da!",
+    "Zuracchi ja nai, Ill Smith da!",
+    "I'm not into married women, I'm into NTR",
+    "Good evening, I'm Santa Claus.",
+    "Don't you know? Sticks always come with balls.",
+    "I'm keeping a secret, I'm actually a foreigner.",
+    "Sushi, geisha, sumo, Japanimation is good!",
+    "CONAN IS AWESOME!",
+    "Yo, yo, yo, it's Katsurap in the house!",
+    "I'm not Zura, I'm Yellow Curry Ninja!",
+    "I'm not Zura, I'm Zurako!",
+    "I'm not Zura, I'm Space Captain Katsura!",
+    "It's not a wig, it's my real hair!",
+    "I'm not a terrorist, I'm a Joi patriot!",
+    "Elizabeth, let's go! To the ends of the universe!",
+    "I'm not a samurai, I'm a rebel!",
+    "It's not a bomb, it's a surprise!",
+    "I'm not running away, I'm advancing in the opposite direction!",
+    "It's not a disguise, it's fashion!",
+    "I'm not lost, I'm exploring new territories!",
+    "It's not a mistake, it's a learning opportunity!",
+    "I'm not hiding, I'm strategically positioning myself!",
+    "It's not a defeat, it's a tactical retreat!",
+    "I'm not alone, I have Elizabeth!",
+    "It's not a pet, it's a comrade!",
+    "I'm not crazy, I'm eccentric!",
+    "It's not a dream, it's a vision!",
+    "I'm not a fool, I'm a visionary!",
+    "It's not a lie, it's an alternative truth!",
+    "I'm not a coward, I'm cautious!",
+    "It's not a failure, it's a step towards success!",
+    "I'm not stubborn, I'm determined!",
+    "It's not a problem, it's a challenge!",
+    "I'm not weak, I'm conserving energy!",
+    "It's not a setback, it's a setup for a comeback!",
+    "I'm not avoiding responsibility, I'm delegating!",
+    "It's not a disaster, it's an opportunity in disguise!",
+    "I'm not procrastinating, I'm prioritizing!",
+    "It's not a loss, it's a lesson!",
+    "I'm not giving up, I'm changing strategy!",
+    "It's not a weakness, it's a strength in disguise!",
+    "I'm not afraid, I'm excited!",
+    "It's not a risk, it's an adventure!",
+    "I'm not a leader, I'm a servant of the people!",
+    "It's not a rebellion, it's a revolution!",
+    "I'm not a hero, I'm just doing what's right!",
+    "It's not a sacrifice, it's an investment in the future!",
+    "I'm not a dreamer, I'm a realist with imagination!",
+    "It's not a fantasy, it's a possibility!",
+    "I'm not Zura, I'm Katsura, and don't you forget it!"
+  ];
+
+  // Combine database quotes with hardcoded ones
+  const allQuotes = dbQuotes 
+    ? [...dbQuotes.map(q => q.text), ...hardcodedQuotes]
+    : hardcodedQuotes;
+
+  // Array of background images (1-12)
+  const backgroundImages = Array.from({ length: 12 }, (_, i) => `/images/${i + 1}.png`);
 
   // Navigation functions
   const nextQuote = () => {
-    if (quotes) setCurrentQuote((prev) => (prev + 1) % quotes.length);
+    setCurrentQuote((prev) => (prev + 1) % allQuotes.length);
   };
 
   const prevQuote = () => {
-    if (quotes) setCurrentQuote((prev) => (prev - 1 + quotes.length) % quotes.length);
+    setCurrentQuote((prev) => (prev - 1 + allQuotes.length) % allQuotes.length);
   };
 
+  // Rotate background images
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBackgroundImageIndex((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-indigo-900">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      
+      {/* Rotating Background Images with Fade */}
+      {backgroundImages.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-2000 ${
+            index === backgroundImageIndex ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <img
+            src={image}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Gradient overlays for smooth blending */}
+          <div className="absolute inset-0 bg-gradient-to-t from-purple-900 via-purple-900/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-transparent to-purple-900/80" />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      ))}
+
+      {/* Main Katsura Image (11.png) - Featured */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-3/4 pointer-events-none">
+        <img
+          src="/images/11.png"
+          alt="Katsura"
+          className="h-full w-auto object-contain drop-shadow-2xl animate-float"
+        />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-purple-900/60" />
+      </div>
+
       {/* Navigation */}
-      <nav className="p-6 backdrop-blur-sm bg-white/10">
-        <div className="max-w-7xl mx-auto">
-          <a href="/" className="text-white hover:text-pink-300 transition">
-            ← Back to Home
+      <nav className="p-6 backdrop-blur-sm bg-white/10 relative z-20">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <a href="/" className="text-white hover:text-pink-300 transition flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Home
           </a>
+          <div className="space-x-6">
+            <a href="/videos" className="text-white hover:text-pink-300 transition">Videos</a>
+            <a href="/games" className="text-white hover:text-pink-300 transition">Games</a>
+            <a href="/chat" className="text-white hover:text-pink-300 transition">Chat</a>
+          </div>
         </div>
       </nav>
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center px-6 py-20">
-        <h1 className="text-5xl font-bold text-white mb-12">
+      <div className="flex flex-col items-center justify-center px-6 py-20 min-h-[calc(100vh-100px)] relative z-10">
+        <h1 className="text-6xl font-bold text-white mb-12 text-center drop-shadow-2xl">
           Katsura's Wisdom
         </h1>
 
         {/* Error State */}
-        {error && (
+        {error && !hardcodedQuotes.length && (
           <p className="text-white text-xl">Error loading quotes</p>
         )}
 
-        {/* Loading State */}
-        {!quotes && !error && (
+        {/* Loading State - Only show if no hardcoded quotes */}
+        {!allQuotes.length && !error && (
           <p className="text-white text-xl animate-pulse">Loading…</p>
         )}
 
         {/* Quotes Display */}
-        {quotes && quotes.length > 0 && (
+        {allQuotes.length > 0 && (
           <div className="max-w-4xl w-full">
             {/* Quote Card */}
-            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-12 mb-8 transform transition duration-300 hover:scale-105">
-              <p className="text-3xl text-white text-center font-medium">
-                "{quotes[currentQuote]?.text}"
+            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-12 mb-8 transform transition duration-300 hover:scale-105">
+              {/* Quote Number */}
+              <div className="text-pink-300 text-sm mb-4 text-center">
+                Quote {currentQuote + 1} of {allQuotes.length}
+              </div>
+              
+              {/* Quote Text */}
+              <p className="text-4xl text-white text-center font-medium leading-relaxed">
+                "{allQuotes[currentQuote]}"
               </p>
+              
+              {/* Attribution */}
+              <p className="text-2xl text-pink-300 text-center mt-6">- Katsura Kotaro</p>
             </div>
 
-            {/* Navigation */}
-            <div className="flex justify-center gap-4">
+            {/* Navigation Controls */}
+            <div className="flex justify-center items-center gap-6">
               <button
                 onClick={prevQuote}
-                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full transition"
+                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
               >
-                ← Previous
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
               </button>
-              
-              <span className="text-white flex items-center px-4">
-                {currentQuote + 1} / {quotes.length}
-              </span>
               
               <button
                 onClick={nextQuote}
-                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full transition"
+                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
               >
-                Next →
+                Next
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mt-8 w-full bg-white/20 rounded-full h-2 overflow-hidden">
+              <div 
+                className="h-full bg-pink-400 transition-all duration-300"
+                style={{ width: `${((currentQuote + 1) / allQuotes.length) * 100}%` }}
+              />
             </div>
           </div>
         )}

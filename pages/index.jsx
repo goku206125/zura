@@ -64,39 +64,47 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section with Large Character Display */}
-      <div className="relative min-h-[600px] overflow-hidden">
+      {/* Hero Section with Enhanced Image Blending */}
+      <div className="relative min-h-[700px] overflow-hidden">
         
-        {/* Background Images */}
+        {/* Background Images with Better Blending */}
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-all duration-2000 ${
               index === currentImage ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <img
-              src={image.src}
-              alt={image.alt}
-              className="absolute right-0 top-0 h-full w-auto max-w-[50%] object-contain"
-            />
+            {/* Image with gradients */}
+            <div className="relative h-full w-full">
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="absolute right-0 top-0 h-full w-[60%] object-cover object-left"
+              />
+              
+              {/* Multiple gradient overlays */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-900 via-purple-900/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-purple-900/40 to-transparent" />
+            </div>
           </div>
         ))}
 
         {/* Content Overlay */}
-        <div className="relative z-10 flex flex-col justify-center min-h-[600px] px-6 py-20">
+        <div className="relative z-10 flex flex-col justify-center min-h-[700px] px-6 py-20">
           <div className="max-w-7xl mx-auto w-full">
             <div className="max-w-2xl">
-              <h2 className="text-7xl font-bold text-white mb-6 animate-fadeIn">
+              <h2 className="text-7xl font-bold text-white mb-6 animate-fadeIn drop-shadow-2xl">
                 Welcome to Katsura's World
               </h2>
               
               {/* Dynamic Quote based on current image */}
               <div className="mb-8 animate-slideIn">
-                <p className="text-3xl text-pink-300 font-bold mb-2">
+                <p className="text-3xl text-pink-300 font-bold mb-2 drop-shadow-lg">
                   "{heroImages[currentImage].quote}"
                 </p>
-                <p className="text-xl text-pink-200">
+                <p className="text-xl text-pink-200 drop-shadow-md">
                   {heroImages[currentImage].description}
                 </p>
               </div>
@@ -119,9 +127,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* Gradient Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent pointer-events-none" />
       </div>
 
       {/* Feature Cards Section */}
@@ -135,7 +140,7 @@ export default function Home() {
             
             {/* Quotes Card */}
             <a href="/quotes" className="group transform transition duration-300 hover:scale-105">
-              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/20 border border-white/10">
                 <div className="text-5xl mb-4">📜</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Famous Quotes</h3>
                 <p className="text-pink-200">
@@ -146,7 +151,7 @@ export default function Home() {
 
             {/* Videos Card */}
             <a href="/videos" className="group transform transition duration-300 hover:scale-105">
-              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/20 border border-white/10">
                 <div className="text-5xl mb-4">🎬</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Epic Moments</h3>
                 <p className="text-pink-200">
@@ -157,7 +162,7 @@ export default function Home() {
 
             {/* Games Card */}
             <a href="/games" className="group transform transition duration-300 hover:scale-105">
-              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/20 border border-white/10">
                 <div className="text-5xl mb-4">🎮</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Quiz Game</h3>
                 <p className="text-pink-200">
@@ -168,7 +173,7 @@ export default function Home() {
 
             {/* Chat Card */}
             <a href="/chat" className="group transform transition duration-300 hover:scale-105">
-              <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/30">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 h-full group-hover:bg-white/20 border border-white/10">
                 <div className="text-5xl mb-4">💬</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Chat with Katsura</h3>
                 <p className="text-pink-200">
