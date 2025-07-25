@@ -22,30 +22,156 @@ async function main() {
   await prisma.video.create({
     data: {
       title: 'Gintama Funny Moments',
-      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Example URL
+      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     },
   });
   await prisma.video.create({
     data: {
       title: 'Katsura Rap',
-      url: 'https://www.youtube.com/embed/KcH-9SNR9sA?si=hfMQG4ImrudoH0O4', // Example URL
+      url: 'https://www.youtube.com/embed/KcH-9SNR9sA?si=hfMQG4ImrudoH0O4',
     },
   });
 
-  // Seed Questions
+  // Seed 10 Katsura-themed Questions
   console.log('Seeding questions...');
+  
+  // Question 1
   await prisma.question.create({
     data: {
-      text: 'What is Katsura\'s catchphrase?',
-      options: ['Zura janai, Katsura da!', 'I am Shock!', 'Ora ora ora!', 'Believe it!'],
+      text: "You're at a ramen shop and someone calls you 'Zura'. What do you do?",
+      options: [
+        "Politely correct them and continue eating",
+        "Dramatically slam the table and yell 'ZURA JANAI, KATSURA DA!' then leave without paying",
+        "Ignore them completely",
+        "Thank them for recognizing you"
+      ],
+      answer: 1, // Index 1 = second option is correct
+    },
+  });
+
+  // Question 2
+  await prisma.question.create({
+    data: {
+      text: "The Shinsengumi are chasing you down the street. Your escape plan?",
+      options: [
+        "Fight them head-on like a true samurai",
+        "Hide in a trash can",
+        "Put on a fake mustache and walk past them confidently",
+        "Call Elizabeth to pick you up in a taxi"
+      ],
+      answer: 2, // Index 2 = third option is correct
+    },
+  });
+
+  // Question 3
+  await prisma.question.create({
+    data: {
+      text: "Elizabeth hasn't shown up for work in 3 days. You:",
+      options: [
+        "File a missing person report",
+        "Assume they're on vacation and hire a temporary replacement",
+        "Break down crying and put up 'Missing: My Best Friend' posters everywhere",
+        "Check if they left a sign"
+      ],
+      answer: 2,
+    },
+  });
+
+  // Question 4
+  await prisma.question.create({
+    data: {
+      text: "You need to infiltrate a government building. Your disguise of choice?",
+      options: [
+        "A janitor with a mop",
+        "An overly dramatic space captain named Captain Katsura",
+        "A regular businessman",
+        "Just wear sunglasses"
+      ],
+      answer: 1,
+    },
+  });
+
+  // Question 5
+  await prisma.question.create({
+    data: {
+      text: "Someone asks about your terrorist activities. You respond:",
+      options: [
+        "I'm not a terrorist, I'm a patriot!",
+        "What terrorist activities?",
+        "ZURA JANAI, KATSURA DA! Wait, that's not what you asked...",
+        "Would you like to hear about our revolution instead?"
+      ],
+      answer: 2,
+    },
+  });
+
+  // Question 6
+  await prisma.question.create({
+    data: {
+      text: "You're giving a serious revolutionary speech when a cat walks by. You:",
+      options: [
+        "Continue the speech professionally",
+        "Stop mid-sentence to pet the cat while making baby talk",
+        "Incorporate the cat into your speech as a symbol of freedom",
+        "Ignore it completely"
+      ],
+      answer: 1,
+    },
+  });
+
+  // Question 7
+  await prisma.question.create({
+    data: {
+      text: "Your rental spaceship is due back today but you're nowhere near the return location. You:",
+      options: [
+        "Call and extend the rental",
+        "Return it late and pay the fee",
+        "Abandon it and assume a new identity",
+        "Paint it a different color and claim it's a different ship"
+      ],
+      answer: 2,
+    },
+  });
+
+  // Question 8
+  await prisma.question.create({
+    data: {
+      text: "What is Katsura's catchphrase?",
+      options: [
+        "Zura janai, Katsura da!",
+        "I am Shock!",
+        "Ora ora ora!",
+        "Believe it!"
+      ],
       answer: 0,
     },
   });
+
+  // Question 9
   await prisma.question.create({
     data: {
-      text: 'What is the name of Katsura\'s alien pet?',
-      options: ['Sadaharu', 'Justaway', 'Elizabeth', 'Neo Armstrong Cyclone Jet Armstrong Cannon'],
+      text: "What is the name of Katsura's alien pet?",
+      options: [
+        "Sadaharu",
+        "Justaway",
+        "Elizabeth",
+        "Neo Armstrong Cyclone Jet Armstrong Cannon"
+      ],
       answer: 2,
+    },
+  });
+
+  // Question 10
+  await prisma.question.create({
+    data: {
+      text: "You're caught in an awkward situation. Your escape phrase?",
+      options: [
+        "ZURA JANAI, KATSURA DA! *runs away*",
+        "Elizabeth, use Smokescreen!",
+        "This isn't what it looks like! It's for the revolution!",
+        "I AM CAPTAIN KATSURA! *dramatic pose and exit*"
+      ],
+      answer: 0,
     },
   });
 
