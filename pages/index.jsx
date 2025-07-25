@@ -69,7 +69,7 @@ export default function Home() {
           {/* Left Side - Text Content */}
           <div className="flex-1 max-w-2xl">
             <h2 className="text-6xl font-bold text-white mb-6">
-              Welcome to Katsura's World
+              Are you tired of corrupt bakufu and their oppression?
             </h2>
             
             <div className="mb-8">
@@ -126,7 +126,7 @@ export default function Home() {
                 <div className="text-5xl mb-4">📜</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Famous Quotes</h3>
                 <p className="text-pink-200">
-                  "It's not Zura, it's Katsura!" and more iconic lines
+                  "Words of wisdom from our leader
                 </p>
               </div>
             </a>
@@ -136,7 +136,7 @@ export default function Home() {
                 <div className="text-5xl mb-4">🎬</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Epic Moments</h3>
                 <p className="text-pink-200">
-                  Watch the best Katsura scenes and comedic gold
+                  Watch our leader in action and his heroic deeds
                 </p>
               </div>
             </a>
@@ -146,7 +146,7 @@ export default function Home() {
                 <div className="text-5xl mb-4">🎮</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Quiz Game</h3>
                 <p className="text-pink-200">
-                  Test your knowledge about Katsura and Gintama!
+                  Test if you are good enough to be a Jouishishi!
                 </p>
               </div>
             </a>
@@ -156,7 +156,7 @@ export default function Home() {
                 <div className="text-5xl mb-4">💬</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Chat with Katsura</h3>
                 <p className="text-pink-200">
-                  Talk to the legendary samurai terrorist!
+                  Talk to the lengendary fruit punch samurai himself
                 </p>
               </div>
             </a>
