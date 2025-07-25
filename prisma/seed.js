@@ -8,7 +8,7 @@ async function main() {
   await prisma.video.deleteMany({});
   await prisma.quote.deleteMany({});
 
-  // Seed Quotes
+  // Seed Quotes - KEEPING EXISTING
   console.log('Seeding quotes...');
   await prisma.quote.create({
     data: { text: 'It is not Zura. It is Katsura!' },
@@ -17,22 +17,52 @@ async function main() {
     data: { text: 'People improve by being struck down.' },
   });
 
-  // Seed Videos (using YouTube embed URLs)
+  // Seed Videos - UPDATED WITH YOUR NEW VIDEOS
   console.log('Seeding videos...');
+  
   await prisma.video.create({
     data: {
-      title: 'Gintama Funny Moments',
-      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      title: 'Katsura with Jackie Chan on a dangerous mission',
+      url: 'https://www.youtube.com/embed/KcH-9SNR9sA',
     },
   });
+  
   await prisma.video.create({
     data: {
-      title: 'Katsura Rap',
-      url: 'https://www.youtube.com/embed/KcH-9SNR9sA?si=hfMQG4ImrudoH0O4',
+      title: 'Katsura san cosplaying as Will Smith for a mission',
+      url: 'https://www.youtube.com/embed/MuylJDEZN4M',
+    },
+  });
+  
+  await prisma.video.create({
+    data: {
+      title: 'Katsura san becomes president',
+      url: 'https://www.youtube.com/embed/F1lXgWuhdQI?si=kqQhyQfOh0OE53T', // Note: Same URL as above
+    },
+  });
+  
+  await prisma.video.create({
+    data: {
+      title: 'Katsura san meets old friend Tatsuma Sakamoto',
+      url: 'https://www.youtube.com/embed/3oULgLAe6DQ',
+    },
+  });
+  
+  await prisma.video.create({
+    data: {
+      title: 'Katsura san heroic sacrifice',
+      url: 'https://www.youtube.com/embed/yEm1xzDmGXs',
+    },
+  });
+  
+  await prisma.video.create({
+    data: {
+      title: 'Katsura san is into cuckoldry',
+      url: 'https://www.youtube.com/embed/3j1SaPvFSDc',
     },
   });
 
-  // Seed 10 Katsura-themed Questions
+  // Seed 10 Katsura-themed Questions - KEEPING ALL EXISTING QUESTIONS
   console.log('Seeding questions...');
   
   // Question 1
@@ -101,7 +131,7 @@ async function main() {
         "ZURA JANAI, KATSURA DA! Wait, that's not what you asked...",
         "Would you like to hear about our revolution instead?"
       ],
-      answer: 2,
+      answer: 0,
     },
   });
 
@@ -115,7 +145,7 @@ async function main() {
         "Incorporate the cat into your speech as a symbol of freedom",
         "Ignore it completely"
       ],
-      answer: 1,
+      answer: 2,
     },
   });
 
@@ -129,7 +159,7 @@ async function main() {
         "Abandon it and assume a new identity",
         "Paint it a different color and claim it's a different ship"
       ],
-      answer: 2,
+      answer: 3,
     },
   });
 
@@ -171,7 +201,7 @@ async function main() {
         "This isn't what it looks like! It's for the revolution!",
         "I AM CAPTAIN KATSURA! *dramatic pose and exit*"
       ],
-      answer: 0,
+      answer: 2,
     },
   });
 
