@@ -77,7 +77,21 @@ export default function QuotesPage() {
     ? [...dbQuotes.map(q => q.text), ...hardcodedQuotes]
     : hardcodedQuotes;
 
-  const imageFiles = Array.from({ length: 12 }, (_, i) => `/images/${i + 1}.png`);
+  // All 12 images treated equally
+  const imageFiles = [
+    '/images/1.png',
+    '/images/2.png', 
+    '/images/3.png',
+    '/images/4.png',
+    '/images/5.png',
+    '/images/6.png',
+    '/images/7.png',
+    '/images/8.png',
+    '/images/9.png',
+    '/images/10.png',
+    '/images/11.png',
+    '/images/12.png'
+  ];
 
   // Auto-rotate images every 3 seconds
   useEffect(() => {
@@ -85,7 +99,7 @@ export default function QuotesPage() {
       setCurrentImage((prev) => (prev + 1) % imageFiles.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [imageFiles.length]);
 
   const nextQuote = () => {
     setCurrentQuote((prev) => (prev + 1) % allQuotes.length);
@@ -172,27 +186,15 @@ export default function QuotesPage() {
 
           {/* Right Side - Cycling Images */}
           <div className="flex-1 relative h-[600px]">
-            {/* Main featured image - 11.png */}
+            {/* ONLY show the current image */}
             <img
-              src="/images/11.png"
-              alt="Featured Katsura"
-              className="absolute inset-0 w-full h-full object-contain z-10"
+              src={imageFiles[currentImage]}
+              alt={`Katsura ${currentImage + 1}`}
+              className="w-full h-full object-contain"
             />
-            
-            {/* Cycling background images */}
-            {imageFiles.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Katsura ${index + 1}`}
-                className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ${
-                  index === currentImage ? 'opacity-30' : 'opacity-0'
-                }`}
-              />
-            ))}
 
             {/* Image indicator dots */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
               {imageFiles.map((_, index) => (
                 <div
                   key={index}
