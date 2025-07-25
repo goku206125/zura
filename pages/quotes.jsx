@@ -7,9 +7,8 @@ const fetcher = (url) => fetch(url).then(res => res.json());
 export default function QuotesPage() {
   const { data: dbQuotes, error } = useSWR("/api/quotes", fetcher);
   const [currentQuote, setCurrentQuote] = useState(0);
-  const [backgroundImageIndex, setBackgroundImageIndex] = useState(0);
+  const [currentImage, setCurrentImage] = useState(0);
   
-  // Hardcoded quotes as fallback + additional quotes
   const hardcodedQuotes = [
     "It's not Zura, it's Katsura!",
     "I'm not Lupin, I'm Zura. Oops, I mean Katsura.",
@@ -74,15 +73,20 @@ export default function QuotesPage() {
     "I'm not Zura, I'm Katsura, and don't you forget it!"
   ];
 
-  // Combine database quotes with hardcoded ones
   const allQuotes = dbQuotes 
     ? [...dbQuotes.map(q => q.text), ...hardcodedQuotes]
     : hardcodedQuotes;
 
-  // Array of background images (1-12)
-  const backgroundImages = Array.from({ length: 12 }, (_, i) => `/images/${i + 1}.png`);
+  const imageFiles = Array.from({ length: 12 }, (_, i) => `/images/${i + 1}.png`);
 
-  // Navigation functions
+  // Auto-rotate images every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % imageFiles.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   const nextQuote = () => {
     setCurrentQuote((prev) => (prev + 1) % allQuotes.length);
   };
@@ -91,49 +95,11 @@ export default function QuotesPage() {
     setCurrentQuote((prev) => (prev - 1 + allQuotes.length) % allQuotes.length);
   };
 
-  // Rotate background images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBackgroundImageIndex((prev) => (prev + 1) % backgroundImages.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       
-      {/* Rotating Background Images with Fade */}
-      {backgroundImages.map((image, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-2000 ${
-            index === backgroundImageIndex ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <img
-            src={image}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {/* Gradient overlays for smooth blending */}
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-900 via-purple-900/50 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-transparent to-purple-900/80" />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-      ))}
-
-      {/* Main Katsura Image (11.png) - Featured */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-3/4 pointer-events-none">
-        <img
-          src="/images/11.png"
-          alt="Katsura"
-          className="h-full w-auto object-contain drop-shadow-2xl animate-float"
-        />
-        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-purple-900/60" />
-      </div>
-
       {/* Navigation */}
-      <nav className="p-6 backdrop-blur-sm bg-white/10 relative z-20">
+      <nav className="p-6 backdrop-blur-sm bg-white/10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <a href="/" className="text-white hover:text-pink-300 transition flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,6 +107,7 @@ export default function QuotesPage() {
             </svg>
             Back to Home
           </a>
+          <h1 className="text-3xl font-bold text-white">Katsura's Wisdom</h1>
           <div className="space-x-6">
             <a href="/videos" className="text-white hover:text-pink-300 transition">Videos</a>
             <a href="/games" className="text-white hover:text-pink-300 transition">Games</a>
@@ -149,73 +116,96 @@ export default function QuotesPage() {
         </div>
       </nav>
 
-      {/* Main Content */}
-      <div className="flex flex-col items-center justify-center px-6 py-20 min-h-[calc(100vh-100px)] relative z-10">
-        <h1 className="text-6xl font-bold text-white mb-12 text-center drop-shadow-2xl">
-          Katsura's Wisdom
-        </h1>
-
-        {/* Error State */}
-        {error && !hardcodedQuotes.length && (
-          <p className="text-white text-xl">Error loading quotes</p>
-        )}
-
-        {/* Loading State - Only show if no hardcoded quotes */}
-        {!allQuotes.length && !error && (
-          <p className="text-white text-xl animate-pulse">Loading…</p>
-        )}
-
-        {/* Quotes Display */}
-        {allQuotes.length > 0 && (
-          <div className="max-w-4xl w-full">
+      {/* Main Content - Side by Side Layout */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="flex items-center justify-between gap-12 min-h-[600px]">
+          
+          {/* Left Side - Quotes */}
+          <div className="flex-1 max-w-2xl">
             {/* Quote Card */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-12 mb-8 transform transition duration-300 hover:scale-105">
+            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-12">
               {/* Quote Number */}
-              <div className="text-pink-300 text-sm mb-4 text-center">
+              <div className="text-pink-300 text-sm mb-4">
                 Quote {currentQuote + 1} of {allQuotes.length}
               </div>
               
               {/* Quote Text */}
-              <p className="text-4xl text-white text-center font-medium leading-relaxed">
+              <p className="text-3xl text-white font-medium mb-8 leading-relaxed">
                 "{allQuotes[currentQuote]}"
               </p>
               
               {/* Attribution */}
-              <p className="text-2xl text-pink-300 text-center mt-6">- Katsura Kotaro</p>
-            </div>
+              <p className="text-xl text-pink-300 mb-8">- Katsura Kotaro</p>
 
-            {/* Navigation Controls */}
-            <div className="flex justify-center items-center gap-6">
-              <button
-                onClick={prevQuote}
-                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Previous
-              </button>
-              
-              <button
-                onClick={nextQuote}
-                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
-              >
-                Next
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
+              {/* Navigation Controls */}
+              <div className="flex gap-4">
+                <button
+                  onClick={prevQuote}
+                  className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Previous
+                </button>
+                
+                <button
+                  onClick={nextQuote}
+                  className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                >
+                  Next
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
 
-            {/* Progress Bar */}
-            <div className="mt-8 w-full bg-white/20 rounded-full h-2 overflow-hidden">
-              <div 
-                className="h-full bg-pink-400 transition-all duration-300"
-                style={{ width: `${((currentQuote + 1) / allQuotes.length) * 100}%` }}
-              />
+              {/* Progress Bar */}
+              <div className="mt-6 w-full bg-white/20 rounded-full h-2 overflow-hidden">
+                <div 
+                  className="h-full bg-pink-400 transition-all duration-300"
+                  style={{ width: `${((currentQuote + 1) / allQuotes.length) * 100}%` }}
+                />
+              </div>
             </div>
           </div>
-        )}
+
+          {/* Right Side - Cycling Images */}
+          <div className="flex-1 relative h-[600px]">
+            {/* Main featured image - 11.png */}
+            <img
+              src="/images/11.png"
+              alt="Featured Katsura"
+              className="absolute inset-0 w-full h-full object-contain z-10"
+            />
+            
+            {/* Cycling background images */}
+            {imageFiles.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`Katsura ${index + 1}`}
+                className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ${
+                  index === currentImage ? 'opacity-30' : 'opacity-0'
+                }`}
+              />
+            ))}
+
+            {/* Image indicator dots */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+              {imageFiles.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentImage 
+                      ? 'bg-white w-6' 
+                      : 'bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
