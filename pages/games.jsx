@@ -106,28 +106,6 @@ const katsuraQuestions = [
   },
   {
     id: 10,
-    text: "You're at a costume party. Everyone expects you to dress up. You come as:",
-    options: [
-      "Yourself, because you're already ridiculous enough",
-      "A giant Elizabeth costume",
-      "Zura (then spend the whole night correcting people)",
-      "An ill-fitting Mario costume while insisting you're 'Katsurio'"
-    ],
-    answer: 3
-  },
-  {
-    id: 11,
-    text: "The revolution needs funding. Your fundraising idea?",
-    options: [
-      "A bake sale with Elizabeth-shaped cookies",
-      "Rob a bank (for the revolution, of course)",
-      "Start a rap career as 'DJ Zura' (KATSURA DA!)",
-      "Sell 'Katsura Kotaro' action figures that nobody wants"
-    ],
-    answer: 2
-  },
-  {
-    id: 12,
     text: "You're caught in an awkward situation. Your escape phrase?",
     options: [
       "ZURA JANAI, KATSURA DA! *runs away*",
@@ -136,39 +114,6 @@ const katsuraQuestions = [
       "I AM CAPTAIN KATSURA! *dramatic pose and exit*"
     ],
     answer: 0
-  },
-  {
-    id: 13,
-    text: "Someone compliments your long, silky hair. You:",
-    options: [
-      "Thank them and share your hair care routine",
-      "Dramatically flip your hair and say 'It's the hair of justice!'",
-      "Suspect they're a government spy trying to get close to you",
-      "Offer to let them touch it for 500 yen"
-    ],
-    answer: 1
-  },
-  {
-    id: 14,
-    text: "You need to write a love letter. You sign it as:",
-    options: [
-      "Your devoted Katsura ❤️",
-      "The Phantom of Love (P.S. ZURA JANAI, KATSURA DA!)",
-      "K.K. (Mysterious Revolutionary)",
-      "Donald Zuramp"
-    ],
-    answer: 1
-  },
-  {
-    id: 15,
-    text: "You're ordering pizza. The delivery person asks for a name. You give:",
-    options: [
-      "Katsura Kotaro",
-      "Not Zura",
-      "Captain Katsura of the Space Pirates",
-      "Elizabeth's Human"
-    ],
-    answer: 2
   }
 ];
 
@@ -189,8 +134,8 @@ export default function GamesPage() {
   const getReaction = (isCorrect) => {
     if (isCorrect) {
       const correctReactions = [
-        "Excellent! You truly understand our way!",
-        "Peaches, you got it right! Good job!",
+        "Excellent! You truly understand the way of Katsura!",
+        "ZURA JA... wait, you got it right! Good job!",
         "Elizabeth would be proud!",
         "You're ready to join the Joi rebels!",
         "That's exactly what I would do!"
@@ -198,10 +143,10 @@ export default function GamesPage() {
       return correctReactions[Math.floor(Math.random() * correctReactions.length)];
     } else {
       const wrongReactions = [
-        "WRONG ANSWER, but don't worry I trust you!",
-        "That's not the way of true samurai!",
-        "Elizabeth is shaking head in disappointment.",
-        "The revolution will need you after it is finished.",
+        "ZURA JANAI, WRONG ANSWER DA!",
+        "That's not very Katsura-like...",
+        "Elizabeth is shaking their head...",
+        "The revolution is disappointed in you.",
         "Try thinking more dramatically next time!"
       ];
       return wrongReactions[Math.floor(Math.random() * wrongReactions.length)];
@@ -281,11 +226,11 @@ export default function GamesPage() {
               Your Score: {score} / {questions.length}
             </p>
             <p className="text-xl text-white mb-8">
-              {score === questions.length ? "Perfect! You ARE ONE OF US!" :
+              {score === questions.length ? "Perfect! You ARE Katsura! (ZURA JANAI!)" :
                score >= questions.length * 0.8 ? "Excellent! Elizabeth approves!" :
                score >= questions.length * 0.6 ? "Good job! You understand the way of Katsura!" :
                score >= questions.length * 0.4 ? "Not bad, but more revolution needed!" :
-               "Don't worry, even Katsura has off days!"}
+               "ZURA JANAI, STUDY MORE DA!"}
             </p>
             <button
               onClick={restartGame}
@@ -318,3 +263,46 @@ export default function GamesPage() {
               <h2 className="text-2xl text-white font-bold mb-6">
                 {questions[currentQuestion].text}
               </h2>
+
+              {/* Answer Options */}
+              <div className="space-y-4">
+                {questions[currentQuestion].options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswer(index)}
+                    disabled={isAnswered}
+                    className={`
+                      w-full p-4 rounded-lg text-left transition-all duration-300
+                      ${!isAnswered ? 'bg-white/10 hover:bg-white/20 text-white hover:scale-105' : ''}
+                      ${isAnswered && index === questions[currentQuestion].answer ? 'bg-green-500 text-white' : ''}
+                      ${isAnswered && index === selectedAnswer && index !== questions[currentQuestion].answer ? 'bg-red-500 text-white' : ''}
+                      ${isAnswered && index !== selectedAnswer && index !== questions[currentQuestion].answer ? 'bg-white/10 text-white/50' : ''}
+                    `}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+
+              {/* Reaction Message */}
+              {showReaction && (
+                <div className={`mt-6 p-4 rounded-lg text-center animate-fadeIn ${
+                  selectedAnswer === questions[currentQuestion].answer ? 'bg-green-500/30' : 'bg-red-500/30'
+                }`}>
+                  <p className="text-white text-lg font-semibold">
+                    {getReaction(selectedAnswer === questions[currentQuestion].answer)}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {questions && questions.length === 0 && (
+          <p className="text-white text-xl">No questions available</p>
+        )}
+      </div>
+    </div>
+  );
+}
