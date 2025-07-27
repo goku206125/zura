@@ -18,9 +18,9 @@ export default function VideosPage() {
     return match ? match[1] : null;
   };
 
-  // Function to get YouTube thumbnail
+  // Function to get YouTube thumbnail - FIXED to use hqdefault
   const getYouTubeThumbnail = (videoId) => {
-    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
   };
 
   return (
@@ -133,8 +133,12 @@ export default function VideosPage() {
                               alt={video.title}
                               className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                               onError={(e) => {
-                                // Fallback to lower quality if maxres fails
-                                e.target.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                                // IMPROVED FALLBACK CHAIN
+                                if (e.target.src.includes('hqdefault')) {
+                                  e.target.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                                } else if (e.target.src.includes('mqdefault')) {
+                                  e.target.src = `https://img.youtube.com/vi/${videoId}/default.jpg`;
+                                }
                               }}
                             />
                             {/* Play button overlay */}
