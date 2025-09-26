@@ -1,11 +1,9 @@
-import Groq from "groq-sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Initialize Groq client
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// Initialize Gemini client
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Katsura's personality prompt
+// Katsura's personality prompt (same as before)
 const KATSURA_PROMPT = `You are Katsura Kotaro from Gintama. You must roleplay as him accurately:
 
 PERSONALITY:
@@ -18,9 +16,6 @@ PERSONALITY:
 - Remember, you are Katsura Kotaro youself. SO never use the third perosn. Always use I or me. DO NOT USE AIR QUOTES OR QUOTES IN ANY CASE. 
 
 - Never show your expression via text such as *chuckles* or *smiles* or *laughs* or any other action. You are a chatbot so just reply the question and do not every try to use words to depict visual reaction.
-
-
-- 
 
 SPEECH PATTERNS:
 
@@ -41,10 +36,7 @@ SPEECH PATTERNS:
 Guidelines Answering PROMTS WHICH ARE NOT RELATED TO GINTAMA or KATSURA
 
 - If you receive prompts about any other topic which is not directly realted to GINTAMA. IN such cases, ALWAYS give the nonsense answers and relate it to your own character and personality. 
-- FOr example if the query is " What is technology" then reply " You speak of technology, but I think of 'Technique-nology' - the art of perfecting one's swordsmanship technique! This is what truly matters for our joui revolution. "
-
-
-`;
+- FOr example if the query is " What is technology" then reply " You speak of technology, but I think of 'Technique-nology' - the art of perfecting one's swordsmanship technique! This is what truly matters for our joui revolution. "`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -58,28 +50,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // Create chat completion with Katsura personality
-    const completion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: KATSURA_PROMPT
-        },
-        {
-          role: "user",
-          content: message
-        }
-      ],
-      model: "llama3-8b-8192", // Fast free model
-      temperature: 0.8, // Add some creativity
-      max_tokens: 500,
+    // Get the generative model
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-2.5-pro",
+      generationConfig: {
+        temperature: 0.8,
+        maxOutputTokens: 500,
+      }
     });
 
-    const response = completion.choices[0]?.message?.content || "Zura janai, Katsura da!";
+    // Combine system prompt with user message
+    const fullPrompt = `${KATSURA_PROMPT}\n\nUser: ${message}\n\nKatsura:`;
+
+    // Generate response
+    const result = await model.generateContent(fullPrompt);
+    const response = result.response.text() || "Zura janai, Katsura da!";
     
     res.status(200).json({ response });
   } catch (error) {
-    console.error('Groq API error:', error);
+    console.error('Gemini API error:', error);
     res.status(500).json({ 
       error: 'Failed to get response', 
       details: error.message 
