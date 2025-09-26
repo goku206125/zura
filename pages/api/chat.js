@@ -56,9 +56,9 @@ export default async function handler(req, res) {
 
     // This model string should be one supported by the API. "gemini-1.5-pro-latest" is a good choice.
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.5-pro-latest", 
+      model: "gemini-2.5-pro", 
       generationConfig: {
-        temperature: 0.8,
+        temperature: 1.5,
         maxOutputTokens: 500,
       }
     });
